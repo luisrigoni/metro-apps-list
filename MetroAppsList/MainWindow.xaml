@@ -1,0 +1,30 @@
+﻿<Window x:Class="MetroAppsList.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+        xmlns:local="clr-namespace:MetroAppsList"
+        Title="MainWindow" Height="600" Width="800">
+    
+    <Window.Resources>
+        <local:ForegroundTextConverter x:Key="ForegroundTextConverter" />
+    </Window.Resources>
+    
+    <Grid>
+        <ListView ItemsSource="{Binding Packages}" ItemTemplate="{DynamicResource PackageItemTemplate}" ItemsPanel="{DynamicResource IemContainerStyle}"
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView.Resources>
+                <DataTemplate x:Key="PackageItemTemplate">
+                    <StackPanel Orientation="Horizontal">
+                        <Grid Background="{Binding IconBackground}">
+                            <Image Source="{Binding DisplayIcon}" Margin="3"/>
+                            <TextBlock Text="{Binding DisplayName}" Foreground="{Binding ForegroundText, Converter={StaticResource ForegroundTextConverter}}"
+                                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+                        </Grid>
+                    </StackPanel>
+                </DataTemplate>
+                <ItemsPanelTemplate x:Key="IemContainerStyle">
+                    <WrapPanel IsItemsHost="True"/>
+                </ItemsPanelTemplate>
+            </ListView.Resources>
+        </ListView>
+    </Grid>
+</Window>
