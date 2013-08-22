@@ -102,7 +102,7 @@ namespace MetroAppsList
             return Path.ChangeExtension(imageFile, "scale-100.png");
         }
 
-        private string TryExtractDisplayName(string dir, Windows.ApplicationModel.Package package, Application application)
+        private string ExtractDisplayName(string dir, Windows.ApplicationModel.Package package, Application application)
         {
             var priPath = Path.Combine(dir, "resources.pri");
             Uri uri;
@@ -114,7 +114,8 @@ namespace MetroAppsList
             if (!string.IsNullOrWhiteSpace(name))
                 return name;
 
-            resource = string.Format("ms-resource://{0}/{1}{2}", package.Id.Name, uri.Segments.Reverse().Skip(1).First(), uri.Segments.Last());
+            var res = string.Concat(uri.Segments.Skip(1));
+            resource = string.Format("ms-resource://{0}/{1}", package.Id.Name, res);
             return NativeMethods.ExtractStringFromPRIFile(priPath, resource);
         }
     }
