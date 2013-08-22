@@ -1,28 +1,11 @@
-﻿using System.Runtime.Remoting.Contexts;
-using MetroAppsList.Win32;
+﻿using MetroAppsList.Win32;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Principal;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Resources;
-using Windows.ApplicationModel.Resources.Core;
 using Windows.Management.Deployment;
-using Windows.Storage;
 
 namespace MetroAppsList
 {
@@ -59,10 +42,6 @@ namespace MetroAppsList
 
         private void LoadApps()
         {
-            //var context = new ResourceContext();
-            //context.Languages = new List<String>() { "pt-br" };
-
-
             var packageManager = new PackageManager();
             var userSecurityId = WindowsIdentity.GetCurrent().User.Value;
             var packages = packageManager.FindPackagesForUser(userSecurityId);
@@ -83,16 +62,11 @@ namespace MetroAppsList
                         try
                         {
                             var itemView = new PackageView();
-
-                            var priPath = Path.Combine(dir, "resources.pri");
-                            //var resource = "ms-resource://Microsoft.Camera/resources/manifestDisplayName";
-                            var resource = string.Format("ms-resource://{0}/resources/{1}", package.Id.Name, new Uri(application.VisualElements.DisplayName).Segments.Last());
-                            itemView.DisplayName = NativeMethods.ExtractStringFromPRIFile(priPath, resource);
-
                             //itemView.DisplayName = application.VisualElements.DisplayName;
                             //itemView.DisplayName = package.Id.Name;
+                            itemView.DisplayName = TryExtractDisplayName(dir, package, application);
                             itemView.ForegroundText = application.VisualElements.ForegroundText;
-                            itemView.DisplayIcon = Path.Combine(dir, application.VisualElements.Logo);
+                            itemView.DisplayIcon = ExtractDisplayIcon(dir, application);
                             itemView.IconBackground = application.VisualElements.BackgroundColor;
 
                             Packages.Add(itemView);
@@ -109,6 +83,39 @@ namespace MetroAppsList
                 }
             }
 
+        }
+
+        private string ExtractDisplayIcon(string dir, Application application)
+        {
+            var imageFile = Path.Combine(dir, application.VisualElements.Logo);
+            if (File.Exists(imageFile))
+                return imageFile;
+
+            imageFile = Path.ChangeExtension(imageFile, "scale-100.png");
+            if (File.Exists(imageFile))
+                return imageFile;
+
+            imageFile = Path.Combine(dir, "en-us", application.VisualElements.Logo); //TODO: How determine if culture parameter is necessary?
+            if (File.Exists(imageFile))
+                return imageFile;
+
+            return Path.ChangeExtension(imageFile, "scale-100.png");
+        }
+
+        private string TryExtractDisplayName(string dir, Windows.ApplicationModel.Package package, Application application)
+        {
+            var priPath = Path.Combine(dir, "resources.pri");
+            Uri uri;
+            if (!Uri.TryCreate(application.VisualElements.DisplayName, UriKind.Absolute, out uri))
+                return application.VisualElements.DisplayName;
+
+            var resource = string.Format("ms-resource://{0}/resources/{1}", package.Id.Name, uri.Segments.Last());
+            var name = NativeMethods.ExtractStringFromPRIFile(priPath, resource);
+            if (!string.IsNullOrWhiteSpace(name))
+                return name;
+
+            resource = string.Format("ms-resource://{0}/{1}{2}", package.Id.Name, uri.Segments.Reverse().Skip(1).First(), uri.Segments.Last());
+            return NativeMethods.ExtractStringFromPRIFile(priPath, resource);
         }
     }
 }

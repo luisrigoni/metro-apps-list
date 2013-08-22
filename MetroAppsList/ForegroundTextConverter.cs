@@ -13,7 +13,7 @@ namespace MetroAppsList
                 case "light":
                     return "#FFFFFF";
                 default:
-                    throw new NotImplementedException();
+                    return "#000000";
             }
         }
 
