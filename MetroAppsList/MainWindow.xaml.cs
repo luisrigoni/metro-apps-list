@@ -64,7 +64,7 @@ namespace MetroAppsList
                             var itemView = new PackageView();
                             //itemView.DisplayName = application.VisualElements.DisplayName;
                             //itemView.DisplayName = package.Id.Name;
-                            itemView.DisplayName = TryExtractDisplayName(dir, package, application);
+                            itemView.DisplayName = ExtractDisplayName(dir, package, application);
                             itemView.ForegroundText = application.VisualElements.ForegroundText;
                             itemView.DisplayIcon = ExtractDisplayIcon(dir, application);
                             itemView.IconBackground = application.VisualElements.BackgroundColor;
