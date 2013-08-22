@@ -1,4 +1,6 @@
-﻿using System;
+﻿using System.Runtime.Remoting.Contexts;
+using MetroAppsList.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -6,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Principal;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,6 +59,10 @@ namespace MetroAppsList
 
         private void LoadApps()
         {
+            //var context = new ResourceContext();
+            //context.Languages = new List<String>() { "pt-br" };
+
+
             var packageManager = new PackageManager();
             var userSecurityId = WindowsIdentity.GetCurrent().User.Value;
             var packages = packageManager.FindPackagesForUser(userSecurityId);
@@ -77,7 +84,12 @@ namespace MetroAppsList
                         {
                             var itemView = new PackageView();
 
-                            itemView.DisplayName = application.VisualElements.DisplayName;
+                            var priPath = Path.Combine(dir, "resources.pri");
+                            //var resource = "ms-resource://Microsoft.Camera/resources/manifestDisplayName";
+                            var resource = string.Format("ms-resource://{0}/resources/{1}", package.Id.Name, new Uri(application.VisualElements.DisplayName).Segments.Last());
+                            itemView.DisplayName = NativeMethods.ExtractStringFromPRIFile(priPath, resource);
+
+                            //itemView.DisplayName = application.VisualElements.DisplayName;
                             //itemView.DisplayName = package.Id.Name;
                             itemView.ForegroundText = application.VisualElements.ForegroundText;
                             itemView.DisplayIcon = Path.Combine(dir, application.VisualElements.Logo);
