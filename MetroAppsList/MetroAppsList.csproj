@@ -39,7 +39,6 @@
     <UICulture>pt-BR</UICulture>
   </PropertyGroup>
   <PropertyGroup>
-    <ApplicationManifest>app.manifest</ApplicationManifest>
     <UICulture>pt-BR</UICulture>
   </PropertyGroup>
   <ItemGroup>
@@ -86,7 +85,6 @@
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <None Include="app.manifest" />
     <AppDesigner Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
