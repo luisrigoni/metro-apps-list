@@ -8,7 +8,14 @@ using System.Windows;
 
 namespace MetroAppsList
 {
-    public partial class App : System.Windows.Application
+    public partial class App
     {
+        protected override void OnStartup(StartupEventArgs e)
+        {
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("pt-BR");
+            System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
+
+            base.OnStartup(e);
+        }
     }
 }
