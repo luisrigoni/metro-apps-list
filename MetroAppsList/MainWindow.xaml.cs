@@ -85,13 +85,13 @@ namespace MetroAppsList
 
         }
 
-        private string ExtractDisplayIcon(string dir, Application application)
+        private static string ExtractDisplayIcon(string dir, Application application)
         {
             var imageFile = Path.Combine(dir, application.VisualElements.Logo);
-            if (File.Exists(imageFile))
-                return imageFile;
+            var scaleImage = Path.ChangeExtension(imageFile, "scale-100.png");
+            if (File.Exists(scaleImage))
+                return scaleImage;
 
-            imageFile = Path.ChangeExtension(imageFile, "scale-100.png");
             if (File.Exists(imageFile))
                 return imageFile;
 
@@ -102,7 +102,7 @@ namespace MetroAppsList
             return Path.ChangeExtension(imageFile, "scale-100.png");
         }
 
-        private string ExtractDisplayName(string dir, Windows.ApplicationModel.Package package, Application application)
+        private static string ExtractDisplayName(string dir, Windows.ApplicationModel.Package package, Application application)
         {
             var priPath = Path.Combine(dir, "resources.pri");
             Uri uri;

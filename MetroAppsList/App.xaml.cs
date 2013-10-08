@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using Windows.Globalization;
 
 namespace MetroAppsList
 {
@@ -14,6 +15,8 @@ namespace MetroAppsList
         {
             System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("pt-BR");
             System.Globalization.CultureInfo.DefaultThreadCurrentUICulture = new System.Globalization.CultureInfo("pt-BR");
+
+            //ApplicationLanguages.PrimaryLanguageOverride = "pt-BR";   
 
             base.OnStartup(e);
         }
