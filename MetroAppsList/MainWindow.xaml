@@ -11,15 +11,15 @@
     
     <Grid>
         <ListView ItemsSource="{Binding Packages}" ItemTemplate="{DynamicResource PackageItemTemplate}" ItemsPanel="{DynamicResource IemContainerStyle}"
-                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                  SelectionChanged="Selector_OnSelectionChanged" SelectionMode="Single">
             <ListView.Resources>
                 <DataTemplate x:Key="PackageItemTemplate">
-                    <StackPanel Orientation="Horizontal" Width="150" Height="150">
-                        <Grid Background="{Binding IconBackground}">
-                            <Image Source="{Binding DisplayIcon}"/>
-                            <TextBlock Text="{Binding DisplayName}" Foreground="{Binding ForegroundText, Converter={StaticResource ForegroundTextConverter}}"
-                                       HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+                    <StackPanel Orientation="Horizontal">
+                        <Grid Background="{Binding IconBackground}" Width="50" Height="50">
+                            <Image Source="{Binding DisplayIcon}" Width="30" Height="30" StretchDirection="Both" Stretch="UniformToFill" Margin="6"/>
                         </Grid>
+                        <!--<TextBlock Text="{Binding DisplayName}" VerticalAlignment="Center"/>-->
                     </StackPanel>
                 </DataTemplate>
                 <ItemsPanelTemplate x:Key="IemContainerStyle">

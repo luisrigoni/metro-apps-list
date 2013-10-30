@@ -12,5 +12,6 @@ namespace MetroAppsList
         public string DisplayIcon { get; set; }
         public string IconBackground { get; set; }
         public string ForegroundText { get; set; }
+        public string AppUserModelId { get; set; }
     }
 }

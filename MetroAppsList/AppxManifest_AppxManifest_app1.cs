@@ -282,22 +282,8 @@ public partial class VisualElements
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/appx/2010/manifest")]
 public partial class DefaultTile
 {
-
-    private string showNameField;
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string ShowName
-    {
-        get
-        {
-            return this.showNameField;
-        }
-        set
-        {
-            this.showNameField = value;
-        }
-    }
+    [XmlAttribute()]
+    public string ShowName { get; set; }
 }
 
 /// <remarks/>
@@ -308,38 +294,11 @@ public partial class DefaultTile
 [System.Xml.Serialization.XmlTypeAttribute(AnonymousType = true, Namespace = "http://schemas.microsoft.com/appx/2010/manifest")]
 public partial class SplashScreen
 {
+    [XmlAttribute()]
+    public string Image { get; set; }
 
-    private string imageField;
-
-    private string backgroundColorField;
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string Image
-    {
-        get
-        {
-            return this.imageField;
-        }
-        set
-        {
-            this.imageField = value;
-        }
-    }
-
-    /// <remarks/>
-    [System.Xml.Serialization.XmlAttributeAttribute()]
-    public string BackgroundColor
-    {
-        get
-        {
-            return this.backgroundColorField;
-        }
-        set
-        {
-            this.backgroundColorField = value;
-        }
-    }
+    [XmlAttribute()]
+    public string BackgroundColor { get; set; }
 }
 
 /// <remarks/>
